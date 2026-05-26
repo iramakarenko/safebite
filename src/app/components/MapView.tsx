@@ -231,7 +231,7 @@ export function MapView() {
         <div className="px-4 py-4 bg-gray-50 border-b border-gray-200">
           <p className="text-sm font-medium text-gray-700 mb-3">Nach Allergenen filtern:</p>
           <div className="flex flex-wrap gap-2">
-            {["gluten", "lactose", "nuts", "eggs", "fish", "soy"].map((allergen) => (
+            {["gluten", "lactose", "nuts", "eggs", "fish", "shellfish", "soy", "sesame"].map((allergen) => (
               <button
                 key={allergen}
                 onClick={() => toggleAllergenFilter(allergen)}
@@ -246,7 +246,9 @@ export function MapView() {
                 {allergen === "nuts" && "Nussfrei"}
                 {allergen === "eggs" && "Eifrei"}
                 {allergen === "fish" && "Fischfrei"}
+                {allergen === "shellfish" && "Schalentierfrei"}
                 {allergen === "soy" && "Sojafrei"}
+                {allergen === "sesame" && "Sesamfrei"}
               </button>
             ))}
           </div>
