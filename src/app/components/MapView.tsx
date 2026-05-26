@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { Search, Filter, Plus, MapPin, Star, ShieldCheck, User, Wheat, LocateFixed, Loader2 } from "lucide-react";
-import { mockRestaurants, Restaurant } from "../data/restaurants";
+import { Search, Filter, Plus, MapPin, Star, User, Wheat, LocateFixed, Loader2 } from "lucide-react";
+import { mockRestaurants, Restaurant, cuisineEmoji } from "../data/restaurants";
 import { useUser } from "../context/UserContext";
 import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from "react-leaflet";
 import L from "leaflet";
@@ -364,8 +364,8 @@ function RestaurantCard({ restaurant, onClick }: { restaurant: Restaurant; onCli
   return (
     <button onClick={onClick} className="w-full px-4 py-4 hover:bg-gray-50 transition-colors text-left">
       <div className="flex gap-3">
-        <div className="flex-shrink-0 w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
-          <ShieldCheck className="w-8 h-8 text-[#3D7A5A]" />
+        <div className="flex-shrink-0 w-16 h-16 bg-[#e9f4ed] rounded-lg flex items-center justify-center text-3xl">
+          {cuisineEmoji[restaurant.cuisine] ?? "🍽️"}
         </div>
         <div className="flex-1 min-w-0">
           <h3 className="font-semibold text-gray-900 mb-1">{restaurant.name}</h3>

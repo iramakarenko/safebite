@@ -1,3 +1,18 @@
+export const cuisineEmoji: Record<string, string> = {
+  "Burger & Fast Food": "🍔",
+  "Vegetarisch / Vegan": "🥗",
+  "Italienisch": "🍕",
+  "Asiatisch": "🍜",
+  "Café & Bakery": "☕",
+  "Österreichisch / International": "🍽️",
+  "Grill & BBQ": "🥩",
+  "Café & Frühstück": "🥐",
+  "Österreichisch": "🥨",
+  "Bowl & Salads": "🥙",
+  "International": "🌍",
+  "Café & Snacks": "🧁",
+};
+
 export interface Restaurant {
   id: string;
   name: string;

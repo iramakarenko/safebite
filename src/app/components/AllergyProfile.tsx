@@ -28,18 +28,16 @@ export function AllergyProfile() {
   };
 
   const handleSubmit = () => {
-    if (selectedAllergies.length === 0) {
-      alert("Bitte wähle mindestens eine Allergie aus!");
-      return;
-    }
-
     if (user) {
-      setUser({
-        ...user,
-        allergies: selectedAllergies
-      });
+      setUser({ ...user, allergies: selectedAllergies });
     }
+    navigate("/map");
+  };
 
+  const handleSkip = () => {
+    if (user) {
+      setUser({ ...user, allergies: [] });
+    }
     navigate("/map");
   };
 
@@ -119,6 +117,13 @@ export function AllergyProfile() {
             }`}
           >
             Profil erstellen
+          </button>
+
+          <button
+            onClick={handleSkip}
+            className="w-full py-3 px-6 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors mt-3"
+          >
+            Überspringen
           </button>
 
           <p className="text-center text-sm text-gray-500 mt-4">

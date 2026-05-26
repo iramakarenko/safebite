@@ -9,7 +9,7 @@ import {
   ShieldCheck,
   MessageSquare
 } from "lucide-react";
-import { mockRestaurants } from "../data/restaurants";
+import { mockRestaurants, cuisineEmoji } from "../data/restaurants";
 
 export function RestaurantDetails() {
   const { id } = useParams();
@@ -52,7 +52,7 @@ export function RestaurantDetails() {
       <div className="flex-1 overflow-auto">
         {/* Restaurant Image Placeholder */}
         <div className="h-48 bg-gradient-to-br from-[#d4e8dc] to-[#a8d4ba] flex items-center justify-center">
-          <ShieldCheck className="w-24 h-24 text-[#3D7A5A] opacity-50" />
+          <span className="text-8xl">{cuisineEmoji[restaurant.cuisine] ?? "🍽️"}</span>
         </div>
 
         <div className="px-4 py-6 space-y-6">
