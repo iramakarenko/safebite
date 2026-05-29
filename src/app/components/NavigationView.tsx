@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { useParams, useNavigate } from "react-router";
-import { ArrowLeft, Navigation, ChevronLeft, ChevronRight, MapPin, Clock, X } from "lucide-react";
+import { ArrowLeft, Navigation, ChevronLeft, ChevronRight, MapPin, Clock, X, ExternalLink } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Polyline, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -48,14 +48,14 @@ function FitRoute({ start, end }: { start: [number, number]; end: [number, numbe
 }
 
 // Dummy turn-by-turn steps
-function buildSteps(restaurantName: string) {
+function buildSteps(restaurantName: string, address: string) {
   return [
     { icon: "↑", instruction: "Geradeaus auf Stephansplatz", distance: "80 m" },
     { icon: "↰", instruction: "Links in Rotenturmstraße", distance: "150 m" },
     { icon: "↱", instruction: "Rechts in Fleischmarkt", distance: "200 m" },
     { icon: "↰", instruction: "Links in Wollzeile", distance: "120 m" },
     { icon: "↱", instruction: "Rechts in Schubertring", distance: "300 m" },
-    { icon: "↰", instruction: `Links – Ziel erreicht: ${restaurantName}`, distance: "0 m" },
+    { icon: "📍", instruction: `Ziel erreicht: ${restaurantName}`, distance: address },
   ];
 }
 
@@ -88,7 +88,7 @@ export function NavigationView() {
     );
   }
 
-  const steps = buildSteps(restaurant.name);
+  const steps = buildSteps(restaurant.name, restaurant.address);
   const currentStep = steps[stepIndex];
 
   const destPos = useMemo<[number, number]>(
@@ -150,9 +150,18 @@ export function NavigationView() {
           >
             Restaurant-Details ansehen
           </button>
+          <a
+            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(restaurant.address)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 w-full border border-[#3D7A5A] text-[#3D7A5A] py-3 px-6 rounded-lg hover:bg-[#e9f4ed] transition-colors flex items-center justify-center gap-2"
+          >
+            <ExternalLink className="w-4 h-4" />
+            In Google Maps ansehen
+          </a>
           <button
             onClick={() => navigate("/map")}
-            className="mt-3 w-full border border-gray-300 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-50 transition-colors"
+            className="mt-2 w-full border border-gray-300 text-gray-700 py-3 px-6 rounded-lg hover:bg-gray-50 transition-colors"
           >
             Zurück zur Karte
           </button>
@@ -177,10 +186,26 @@ export function NavigationView() {
             <p className="font-semibold leading-tight">{restaurant.name}</p>
           </div>
         </div>
-        <div className="flex items-center gap-1 text-sm bg-[#2f6047] px-3 py-1.5 rounded-full">
-          <Clock className="w-4 h-4" />
-          <span>{formatTime(elapsed)}</span>
+        <div className="flex items-center gap-2">
+          <a
+            href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(restaurant.address)}&travelmode=walking`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 text-xs bg-white text-[#3D7A5A] font-semibold px-2.5 py-1.5 rounded-full hover:bg-gray-100 transition-colors"
+          >
+            <ExternalLink className="w-3.5 h-3.5" />
+            Google Maps
+          </a>
+          <div className="flex items-center gap-1 text-sm bg-[#2f6047] px-3 py-1.5 rounded-full">
+            <Clock className="w-4 h-4" />
+            <span>{formatTime(elapsed)}</span>
+          </div>
         </div>
+      </div>
+
+      {/* Prototype banner */}
+      <div className="bg-[#FFF9E6] border-b border-[#F4C430] px-4 py-2 flex items-center gap-2">
+        <span className="text-xs text-[#7a5c00]">⚠️ Demo-Ansicht — für echte Navigation "Google Maps" verwenden</span>
       </div>
 
       {/* Map */}

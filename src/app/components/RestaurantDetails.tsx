@@ -7,7 +7,8 @@ import {
   Phone,
   Clock,
   ShieldCheck,
-  MessageSquare
+  MessageSquare,
+  ExternalLink
 } from "lucide-react";
 import { cuisineEmoji, allergenLabels } from "../data/restaurants";
 import { useUser } from "../context/UserContext";
@@ -181,14 +182,23 @@ export function RestaurantDetails() {
         </div>
       </div>
 
-      {/* Fixed Bottom Navigation Button */}
-      <div className="border-t border-gray-200 p-4 bg-white">
-        <button
-          onClick={() => navigate(`/navigation/${restaurant.id}`)}
+      {/* Fixed Bottom Navigation Buttons */}
+      <div className="border-t border-gray-200 p-4 bg-white space-y-2">
+        <a
+          href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(restaurant.address)}&travelmode=walking`}
+          target="_blank"
+          rel="noopener noreferrer"
           className="w-full bg-[#3D7A5A] text-white py-3 px-6 rounded-lg hover:bg-[#2f6047] transition-colors flex items-center justify-center gap-2"
         >
-          <Navigation className="w-5 h-5" />
-          Navigation starten
+          <ExternalLink className="w-5 h-5" />
+          In Google Maps öffnen
+        </a>
+        <button
+          onClick={() => navigate(`/navigation/${restaurant.id}`)}
+          className="w-full border border-gray-300 text-gray-600 py-2.5 px-6 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 text-sm"
+        >
+          <Navigation className="w-4 h-4" />
+          Demo-Navigation ansehen
         </button>
       </div>
     </div>

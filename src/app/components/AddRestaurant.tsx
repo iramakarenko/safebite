@@ -142,12 +142,23 @@ export function AddRestaurant() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3D7A5A] focus:border-transparent outline-none"
               >
                 <option value="">Bitte wählen...</option>
+                <option value="Österreichisch">Österreichisch</option>
+                <option value="Österreichisch / International">Österreichisch / International</option>
+                <option value="Österreichisch / Fast Food">Österreichisch / Fast Food</option>
                 <option value="Italienisch">Italienisch</option>
                 <option value="Asiatisch">Asiatisch</option>
+                <option value="Japanisch / Sushi">Japanisch / Sushi</option>
+                <option value="Indisch">Indisch</option>
+                <option value="Mexikanisch">Mexikanisch</option>
+                <option value="Mediterran">Mediterran</option>
+                <option value="Türkisch">Türkisch</option>
                 <option value="Vegetarisch / Vegan">Vegetarisch / Vegan</option>
                 <option value="Burger & Fast Food">Burger & Fast Food</option>
+                <option value="Grill & BBQ">Grill & BBQ</option>
+                <option value="Bowl & Salads">Bowl & Salads</option>
                 <option value="Café & Bakery">Café & Bakery</option>
-                <option value="Österreichisch">Österreichisch</option>
+                <option value="Café & Frühstück">Café & Frühstück</option>
+                <option value="Café & Snacks">Café & Snacks</option>
                 <option value="International">International</option>
               </select>
             </div>

@@ -19,9 +19,15 @@ export const cuisineEmoji: Record<string, string> = {
   "Grill & BBQ": "🥩",
   "Café & Frühstück": "🥐",
   "Österreichisch": "🥨",
+  "Österreichisch / Fast Food": "🥨",
   "Bowl & Salads": "🥙",
   "International": "🌍",
   "Café & Snacks": "🧁",
+  "Japanisch / Sushi": "🍣",
+  "Mexikanisch": "🌮",
+  "Mediterran": "🫒",
+  "Indisch": "🍛",
+  "Türkisch": "🥙",
 };
 
 export interface Restaurant {
@@ -316,6 +322,206 @@ export const mockRestaurants: Restaurant[] = [
         rating: 4,
         comment: "Wunderbarer Kuchen, alles selbst gemacht!",
         allergenInfo: "Glutenfreier Kuchen täglich frisch"
+      }
+    ]
+  },
+  {
+    id: "13",
+    name: "Sushimi",
+    address: "Mariahilfer Straße 45, 1060 Wien",
+    lat: 48.2005,
+    lng: 16.3540,
+    cuisine: "Japanisch / Sushi",
+    allergenFree: ["eggs", "shellfish"],
+    rating: 4.4,
+    distance: "1.2 km",
+    description: "Modernes Sushi-Restaurant mit ei- und schalentierfreien Rolls. Glutenfreie Tamari-Soße auf Anfrage erhältlich.",
+    reviews: [
+      {
+        id: "r14",
+        author: "Jonas K.",
+        date: "2026-05-20",
+        rating: 5,
+        comment: "Endlich Sushi ohne Angst vor Eiern im Teig!",
+        allergenInfo: "Keine Ei-Zutaten in Standard-Rolls, Personal sehr aufmerksam"
+      }
+    ]
+  },
+  {
+    id: "14",
+    name: "La Cantina",
+    address: "Neubaugürtel 12, 1070 Wien",
+    lat: 48.2040,
+    lng: 16.3430,
+    cuisine: "Mexikanisch",
+    allergenFree: ["gluten", "lactose", "nuts", "fish"],
+    rating: 4.3,
+    distance: "3.1 km",
+    description: "Authentisches mexikanisches Restaurant mit Maistortillas statt Weizen. Allergen-Ampel auf jeder Karte, kompetente Beratung.",
+    reviews: [
+      {
+        id: "r15",
+        author: "Laura B.",
+        date: "2026-05-17",
+        rating: 4,
+        comment: "Tolle Tacos! Die Maistortillas sind glutenfrei und superlecker.",
+        allergenInfo: "Alle Tortillas aus 100% Mais, keine Erdnüsse verwendet"
+      },
+      {
+        id: "r16",
+        author: "Stefan M.",
+        date: "2026-05-24",
+        rating: 5,
+        comment: "Bestes mexikanisches Essen in Wien, und das als Allergiker sicher!",
+        allergenInfo: "Küche komplett fischfrei, glutenfreie Guacamole"
+      }
+    ]
+  },
+  {
+    id: "15",
+    name: "Hummus & Co.",
+    address: "Gumpendorfer Straße 22, 1060 Wien",
+    lat: 48.1965,
+    lng: 16.3560,
+    cuisine: "Mediterran",
+    allergenFree: ["lactose", "eggs", "nuts"],
+    rating: 4.6,
+    distance: "2.0 km",
+    description: "Levantinische Bowl-Küche mit frischen Zutaten. Alle Gerichte laktose- und eifrei, nussfreie Küche garantiert.",
+    reviews: [
+      {
+        id: "r17",
+        author: "Mira S.",
+        date: "2026-05-21",
+        rating: 5,
+        comment: "Der Hummus ist göttlich und ich kann bedenkenlos essen!",
+        allergenInfo: "Komplett eifrei, alle Dips ohne Milchprodukte"
+      }
+    ]
+  },
+  {
+    id: "16",
+    name: "The Spice Garden",
+    address: "Alser Straße 38, 1090 Wien",
+    lat: 48.2192,
+    lng: 16.3520,
+    cuisine: "Indisch",
+    allergenFree: ["gluten", "nuts", "soy", "shellfish"],
+    rating: 4.5,
+    distance: "2.7 km",
+    description: "Indische Currys und Dal-Gerichte mit detaillierter Allergen-Kennzeichnung. Viele von Natur aus glutenfreie Gerichte.",
+    reviews: [
+      {
+        id: "r18",
+        author: "Priya N.",
+        date: "2026-05-19",
+        rating: 5,
+        comment: "Als Inder mit Glutenunverträglichkeit hier endlich heimisch fühlen!",
+        allergenInfo: "Glutenfreie Pappadums, alle Currys ohne Nüsse erhältlich"
+      },
+      {
+        id: "r19",
+        author: "David W.",
+        date: "2026-05-22",
+        rating: 4,
+        comment: "Sehr gute Auswahl, Personal erklärt Zutaten genau.",
+        allergenInfo: "Sojasauce wird nicht verwendet, sichereres Küchensystem"
+      }
+    ]
+  },
+  {
+    id: "17",
+    name: "Bratlfettn",
+    address: "Favoritenstraße 88, 1100 Wien",
+    lat: 48.1850,
+    lng: 16.3720,
+    cuisine: "Österreichisch / Fast Food",
+    allergenFree: ["gluten", "eggs", "lactose"],
+    rating: 3.9,
+    distance: "4.5 km",
+    description: "Wiener Fast Food mit glutenfreien Würsteln, eierfreien Beilagen und laktosefreien Saucen. Günstig und transparent.",
+    reviews: [
+      {
+        id: "r20",
+        author: "Heinz P.",
+        date: "2026-05-11",
+        rating: 4,
+        comment: "Guter Würstelstand, überraschend gut für Allergiker!",
+        allergenInfo: "Glutenfreies Brot auf Wunsch, keine Ei-Produkte im Standard-Menü"
+      }
+    ]
+  },
+  {
+    id: "18",
+    name: "Pasta di Roma",
+    address: "Josefstädter Straße 14, 1080 Wien",
+    lat: 48.2115,
+    lng: 16.3480,
+    cuisine: "Italienisch",
+    allergenFree: ["lactose", "eggs", "shellfish", "fish"],
+    rating: 4.2,
+    distance: "1.8 km",
+    description: "Traditionelle Pasta-Bar mit laktose- und eierfreien Nudeln auf Bestellung. Komplett frei von Fisch und Schalentieren.",
+    reviews: [
+      {
+        id: "r21",
+        author: "Chiara F.",
+        date: "2026-05-18",
+        rating: 4,
+        comment: "Endlich Pasta ohne Ei! Schmeckt genauso gut.",
+        allergenInfo: "Pasta aus Hartweizengrieß ohne Ei auf Anfrage"
+      }
+    ]
+  },
+  {
+    id: "19",
+    name: "Garden Kitchen",
+    address: "Währinger Straße 78, 1180 Wien",
+    lat: 48.2298,
+    lng: 16.3502,
+    cuisine: "Vegetarisch / Vegan",
+    allergenFree: ["gluten", "lactose", "nuts", "eggs", "soy", "fish", "shellfish", "sesame"],
+    rating: 4.7,
+    distance: "3.3 km",
+    description: "Wiens allergikerfreundlichstes Restaurant. Alle 14 EU-Allergene klar deklariert, vegane Vollwertküche ohne Kompromisse.",
+    reviews: [
+      {
+        id: "r22",
+        author: "Anna Z.",
+        date: "2026-05-23",
+        rating: 5,
+        comment: "Ich habe 6 Allergien und kann hier die komplette Karte essen!",
+        allergenInfo: "Vollständig deklariert, eigene Allergie-Checkliste für jeden Tisch"
+      },
+      {
+        id: "r23",
+        author: "Ben T.",
+        date: "2026-05-25",
+        rating: 5,
+        comment: "Absolute Empfehlung für alle Allergiker. Top Personal!",
+        allergenInfo: "Separate Küchenbereiche für verschiedene Allergene"
+      }
+    ]
+  },
+  {
+    id: "20",
+    name: "Bosphorus Grill",
+    address: "Lerchenfelder Straße 95, 1070 Wien",
+    lat: 48.2135,
+    lng: 16.3445,
+    cuisine: "Türkisch",
+    allergenFree: ["lactose", "nuts", "fish", "shellfish", "eggs"],
+    rating: 4.1,
+    distance: "2.9 km",
+    description: "Türkischer Grill mit klarer Allergen-Beratung. Ohne Nüsse, Fisch, Schalentiere und Eier — für viele Allergiker gut geeignet.",
+    reviews: [
+      {
+        id: "r24",
+        author: "Aylin D.",
+        date: "2026-05-16",
+        rating: 4,
+        comment: "Sehr freundlich und auf Allergien gut eingegangen.",
+        allergenInfo: "Kein Fisch in der Küche, nussfreie Döner-Saucen"
       }
     ]
   }
