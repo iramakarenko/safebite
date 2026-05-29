@@ -1,17 +1,20 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import { ArrowLeft, Star } from "lucide-react";
-import { mockRestaurants } from "../data/restaurants";
+import { useUser } from "../context/UserContext";
+
+const MAX_COMMENT = 500;
 
 export function WriteReview() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { restaurants, addReview } = useUser();
   const [rating, setRating] = useState(0);
   const [hoveredRating, setHoveredRating] = useState(0);
   const [comment, setComment] = useState("");
   const [allergenInfo, setAllergenInfo] = useState("");
 
-  const restaurant = mockRestaurants.find((r) => r.id === id);
+  const restaurant = restaurants.find((r) => r.id === id);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,12 +29,15 @@ export function WriteReview() {
       return;
     }
 
-    // In a real app, this would send data to an API
-    alert(
-      `Bewertung erfolgreich gespeichert!\n\nBewertung: ${rating} Sterne\nDanke für deinen Beitrag!`
-    );
+    addReview(id!, {
+      id: `r${Date.now()}`,
+      author: "Du",
+      date: new Date().toISOString().split("T")[0],
+      rating,
+      comment: comment.trim(),
+      allergenInfo: allergenInfo.trim() || undefined,
+    });
 
-    // Navigate back to restaurant details
     navigate(`/restaurant/${id}`);
   };
 
@@ -40,10 +46,7 @@ export function WriteReview() {
       <div className="size-full flex items-center justify-center">
         <div className="text-center">
           <p className="text-gray-500">Restaurant nicht gefunden</p>
-          <button
-            onClick={() => navigate("/map")}
-            className="mt-4 text-[#3D7A5A] hover:underline"
-          >
+          <button onClick={() => navigate("/map")} className="mt-4 text-[#3D7A5A] hover:underline">
             Zurück zur Karte
           </button>
         </div>
@@ -71,9 +74,7 @@ export function WriteReview() {
         <div className="max-w-md mx-auto">
           {/* Restaurant Info */}
           <div className="mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-1">
-              {restaurant.name}
-            </h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-1">{restaurant.name}</h2>
             <p className="text-sm text-gray-600">{restaurant.cuisine}</p>
           </div>
 
@@ -122,13 +123,13 @@ export function WriteReview() {
               <textarea
                 required
                 value={comment}
-                onChange={(e) => setComment(e.target.value)}
+                onChange={(e) => setComment(e.target.value.slice(0, MAX_COMMENT))}
                 placeholder="Teile deine Erfahrung mit der Community. Was hat dir besonders gut gefallen?"
                 rows={5}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3D7A5A] focus:border-transparent outline-none resize-none"
               />
-              <p className="text-xs text-gray-500 mt-1">
-                {comment.length} / 500 Zeichen
+              <p className={`text-xs mt-1 ${comment.length >= MAX_COMMENT ? "text-red-500 font-medium" : "text-gray-500"}`}>
+                {comment.length} / {MAX_COMMENT} Zeichen
               </p>
             </div>
 

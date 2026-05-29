@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { ArrowLeft, MapPin, Utensils, Check } from "lucide-react";
+import { useUser } from "../context/UserContext";
 
 const allergenOptions = [
   { id: "gluten", label: "Glutenfrei" },
@@ -11,8 +12,13 @@ const allergenOptions = [
   { id: "soy", label: "Sojafrei" }
 ];
 
+// Spread restaurants around Vienna center so new ones appear on the map
+const VIENNA_JITTER = () => 48.2 + (Math.random() - 0.5) * 0.05;
+const VIENNA_LNG_JITTER = () => 16.37 + (Math.random() - 0.5) * 0.08;
+
 export function AddRestaurant() {
   const navigate = useNavigate();
+  const { addRestaurant } = useUser();
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -42,13 +48,21 @@ export function AddRestaurant() {
       return;
     }
 
-    // In a real app, this would send data to an API
-    alert(
-      `Restaurant "${formData.name}" erfolgreich hinzugefügt!\n\nDanke für deinen Beitrag zur Community.`
-    );
+    const newId = `user-${Date.now()}`;
+    addRestaurant({
+      id: newId,
+      name: formData.name,
+      address: formData.address,
+      cuisine: formData.cuisine,
+      allergenFree: formData.allergenFree,
+      rating: 0,
+      reviews: [],
+      description: `Von der Community hinzugefügtes Restaurant.`,
+      lat: VIENNA_JITTER(),
+      lng: VIENNA_LNG_JITTER(),
+    });
 
-    // Navigate to map view
-    navigate("/map");
+    navigate(`/restaurant/${newId}`);
   };
 
   return (

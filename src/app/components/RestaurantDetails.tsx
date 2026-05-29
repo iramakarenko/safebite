@@ -9,12 +9,14 @@ import {
   ShieldCheck,
   MessageSquare
 } from "lucide-react";
-import { mockRestaurants, cuisineEmoji } from "../data/restaurants";
+import { cuisineEmoji, allergenLabels } from "../data/restaurants";
+import { useUser } from "../context/UserContext";
 
 export function RestaurantDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const restaurant = mockRestaurants.find((r) => r.id === id);
+  const { restaurants } = useUser();
+  const restaurant = restaurants.find((r) => r.id === id);
 
   if (!restaurant) {
     return (
@@ -86,7 +88,7 @@ export function RestaurantDetails() {
                   className="inline-flex items-center gap-1 px-3 py-1 bg-[#d4e8dc] text-[#2f6047] rounded-full"
                 >
                   <ShieldCheck className="w-4 h-4" />
-                  <span className="capitalize">{allergen}-frei</span>
+                  <span>{allergenLabels[allergen] ?? allergen}</span>
                 </span>
               ))}
             </div>

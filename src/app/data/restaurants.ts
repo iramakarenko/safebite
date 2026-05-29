@@ -1,3 +1,14 @@
+export const allergenLabels: Record<string, string> = {
+  gluten: "Glutenfrei",
+  lactose: "Laktosefrei",
+  nuts: "Nussfrei",
+  eggs: "Eifrei",
+  fish: "Fischfrei",
+  shellfish: "Schalentierfrei",
+  soy: "Sojafrei",
+  sesame: "Sesamfrei",
+};
+
 export const cuisineEmoji: Record<string, string> = {
   "Burger & Fast Food": "🍔",
   "Vegetarisch / Vegan": "🥗",

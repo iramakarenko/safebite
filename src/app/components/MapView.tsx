@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Search, Filter, Plus, MapPin, Star, User, Wheat, LocateFixed, Loader2 } from "lucide-react";
-import { mockRestaurants, Restaurant, cuisineEmoji } from "../data/restaurants";
+import { Restaurant, cuisineEmoji, allergenLabels } from "../data/restaurants";
 import { useUser } from "../context/UserContext";
 import { MapContainer, TileLayer, Marker, Popup, Circle, useMap } from "react-leaflet";
 import L from "leaflet";
@@ -50,9 +50,18 @@ function FocusUser({ pos, active }: { pos: [number, number] | null; active: bool
   return null;
 }
 
+function normalizeText(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/ä/g, "ae")
+    .replace(/ö/g, "oe")
+    .replace(/ü/g, "ue")
+    .replace(/ß/g, "ss");
+}
+
 export function MapView() {
   const navigate = useNavigate();
-  const { user } = useUser();
+  const { user, restaurants } = useUser();
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [selectedAllergens, setSelectedAllergens] = useState<string[]>(user?.allergies || ["gluten"]);
@@ -105,18 +114,19 @@ export function MapView() {
   };
 
   const filteredRestaurants = useMemo(() => {
-    return mockRestaurants.filter((restaurant) => {
+    const q = normalizeText(searchQuery);
+    return restaurants.filter((restaurant) => {
       const matchesSearch =
-        searchQuery === "" ||
-        restaurant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        restaurant.cuisine.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        restaurant.address.toLowerCase().includes(searchQuery.toLowerCase());
+        q === "" ||
+        normalizeText(restaurant.name).includes(q) ||
+        normalizeText(restaurant.cuisine).includes(q) ||
+        normalizeText(restaurant.address).includes(q);
       const matchesAllergens =
         selectedAllergens.length === 0 ||
         selectedAllergens.every((allergen) => restaurant.allergenFree.includes(allergen));
       return matchesSearch && matchesAllergens;
     });
-  }, [searchQuery, selectedAllergens]);
+  }, [searchQuery, selectedAllergens, restaurants]);
 
   const toggleAllergenFilter = (allergen: string) => {
     setSelectedAllergens(prev =>
@@ -231,24 +241,17 @@ export function MapView() {
         <div className="px-4 py-4 bg-gray-50 border-b border-gray-200">
           <p className="text-sm font-medium text-gray-700 mb-3">Nach Allergenen filtern:</p>
           <div className="flex flex-wrap gap-2">
-            {["gluten", "lactose", "nuts", "eggs", "fish", "shellfish", "soy", "sesame"].map((allergen) => (
+            {Object.entries(allergenLabels).map(([id, label]) => (
               <button
-                key={allergen}
-                onClick={() => toggleAllergenFilter(allergen)}
+                key={id}
+                onClick={() => toggleAllergenFilter(id)}
                 className={`px-3 py-1 rounded-full text-sm transition-colors ${
-                  selectedAllergens.includes(allergen)
+                  selectedAllergens.includes(id)
                     ? "bg-[#3D7A5A] text-white"
                     : "bg-white border border-gray-300 text-gray-700 hover:border-[#3D7A5A]"
                 }`}
               >
-                {allergen === "gluten" && "Glutenfrei"}
-                {allergen === "lactose" && "Laktosefrei"}
-                {allergen === "nuts" && "Nussfrei"}
-                {allergen === "eggs" && "Eifrei"}
-                {allergen === "fish" && "Fischfrei"}
-                {allergen === "shellfish" && "Schalentierfrei"}
-                {allergen === "soy" && "Sojafrei"}
-                {allergen === "sesame" && "Sesamfrei"}
+                {label}
               </button>
             ))}
           </div>
@@ -388,7 +391,7 @@ function RestaurantCard({ restaurant, onClick }: { restaurant: Restaurant; onCli
           <div className="flex flex-wrap gap-1 mt-2">
             {restaurant.allergenFree.map((allergen) => (
               <span key={allergen} className="inline-block px-2 py-0.5 bg-[#d4e8dc] text-[#2f6047] text-xs rounded-full">
-                {allergen}
+                {allergenLabels[allergen] ?? allergen}
               </span>
             ))}
           </div>

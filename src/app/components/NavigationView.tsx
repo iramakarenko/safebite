@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useParams, useNavigate } from "react-router";
 import { ArrowLeft, Navigation, ChevronLeft, ChevronRight, MapPin, Clock, X } from "lucide-react";
 import { MapContainer, TileLayer, Marker, Polyline, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { mockRestaurants } from "../data/restaurants";
+import { useUser } from "../context/UserContext";
 
 // Dummy user position — FH Technikum Wien
 const USER_POS: [number, number] = [48.2333, 16.3747];
@@ -38,7 +38,10 @@ const destIcon = L.divIcon({
 
 function FitRoute({ start, end }: { start: [number, number]; end: [number, number] }) {
   const map = useMap();
+  const fitted = useRef(false);
   useEffect(() => {
+    if (fitted.current) return;
+    fitted.current = true;
     map.fitBounds([start, end], { padding: [50, 50] });
   }, [map, start, end]);
   return null;
@@ -59,7 +62,8 @@ function buildSteps(restaurantName: string) {
 export function NavigationView() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const restaurant = mockRestaurants.find((r) => r.id === id);
+  const { restaurants } = useUser();
+  const restaurant = restaurants.find((r) => r.id === id);
 
   const [stepIndex, setStepIndex] = useState(0);
   const [arrived, setArrived] = useState(false);
@@ -86,18 +90,23 @@ export function NavigationView() {
 
   const steps = buildSteps(restaurant.name);
   const currentStep = steps[stepIndex];
-  const destPos: [number, number] = [restaurant.lat, restaurant.lng];
 
-  // Dummy route: interpolated waypoints between user and restaurant
-  const mid1: [number, number] = [
-    USER_POS[0] + (destPos[0] - USER_POS[0]) * 0.33,
-    USER_POS[1] + (destPos[1] - USER_POS[1]) * 0.15,
-  ];
-  const mid2: [number, number] = [
-    USER_POS[0] + (destPos[0] - USER_POS[0]) * 0.66,
-    USER_POS[1] + (destPos[1] - USER_POS[1]) * 0.85,
-  ];
-  const routePoints: [number, number][] = [USER_POS, mid1, mid2, destPos];
+  const destPos = useMemo<[number, number]>(
+    () => [restaurant.lat, restaurant.lng],
+    [restaurant.lat, restaurant.lng]
+  );
+
+  const routePoints = useMemo<[number, number][]>(() => {
+    const mid1: [number, number] = [
+      USER_POS[0] + (destPos[0] - USER_POS[0]) * 0.33,
+      USER_POS[1] + (destPos[1] - USER_POS[1]) * 0.15,
+    ];
+    const mid2: [number, number] = [
+      USER_POS[0] + (destPos[0] - USER_POS[0]) * 0.66,
+      USER_POS[1] + (destPos[1] - USER_POS[1]) * 0.85,
+    ];
+    return [USER_POS, mid1, mid2, destPos];
+  }, [destPos]);
 
   const remainingSteps = steps.length - 1 - stepIndex;
   const etaMinutes = Math.max(1, remainingSteps * 2 + Math.round((steps.length - remainingSteps) * 0.5));
